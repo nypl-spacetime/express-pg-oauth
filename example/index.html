@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>OAuth Test</title>
+    <meta charset="utf-8">
+    <meta name="viewport"content="width=device-width,initial-scale=1">
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/skeleton.css">
+    <style>
+      .error {
+        color: red;
+        font-weight: bold;
+      }
+
+      ul#providers {
+        list-style-type: none;
+      }
+
+      ul#providers > li {
+        margin-left: 1.5em;
+      }
+
+      ul#providers > li:before {
+        content: "–";
+        position: absolute;
+        margin-left: -1.1em;
+      }
+
+      #providers img {
+        width: 1em;
+        margin-top: 5px;
+        padding-right: 10px;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>
+        OAuth Test Application
+      </h1>
+      <h2>
+        User ID: <span id="user-id"></span>
+      </h2>
+      <div>
+        Logged in: <span id="logged-in"></span>
+      </div>
+      <div id='error' class="error">
+      </div>
+      <div id="action">
+      </div>
+      <div>
+        Entries for user: <span id="count"></span>
+      </div>
+      <div>
+        <h5>Available OAuth providers:</h5>
+        <ul id="providers">
+        </ul>
+      </div>
+      <div>
+        <a id="disconnect" href="javascript:void(0);">Log out!</a>
+      </div>
+    </div>
+    <script>
+    var count = 0
+    var data = null
+
+    var apiUrl = 'http://oauth-test.dev/'
+
+    d3.select('#disconnect')
+      .on('click', function() {
+        fetch(apiUrl + 'oauth/disconnect', {
+            credentials: 'include'
+          })
+          .then(function(response) {
+            return response.json()
+          }).then(function(json) {
+            console.log('Logged out!')
+            location.reload()
+          }).catch(function(ex) {
+            console.log('parsing failed', ex)
+          })
+      })
+
+  function updateCount() {
+    d3.select('#count')
+      .html(count)
+  }
+
+  fetch(apiUrl + 'oauth', {
+      credentials: 'include'
+    })
+    .then(function(response) {
+      return response.json()
+    }).then(function(json) {
+      data = json
+
+      var provider = d3.select('#providers').selectAll('li').data(data.providers)
+        .enter().append('li')
+
+      provider.append('img')
+          .attr('src', function(d) {
+            return d.icon
+          })
+
+      provider.append('a')
+          .attr('href', function(d) {
+            return d.connect
+          })
+          .html(function(d) {
+            return d.title
+          })
+
+      var providerTitles = data.providers
+        .filter(function(provider) {
+          return data.oauth && provider.name === data.oauth.provider
+        })
+        .map(function(provider) {
+          return provider.title
+        })
+
+      var str = 'no...'
+
+      if (data.user && data.oauth) {
+        var name = data.oauth.data.name
+        if (data.oauth.data.url) {
+          name = '<a target="_blank" href="' + data.oauth.data.url + '">' + name + '</a>'
+        }
+        str = 'yes, with ' + providerTitles[0] + ', and your name is ' + name
+      }
+
+      d3.select('#logged-in')
+        .html(str)
+
+      d3.select('#user-id')
+        .html(json.user.id)
+
+      d3.select('#action')
+        .append('button')
+        .html('Send data!')
+        .on('click', function() {
+          fetch(apiUrl + 'submit', {
+              credentials: 'include'
+            })
+            .then(function(response) {
+              return response.json()
+            }).then(function(json) {
+              console.log('Sent data!')
+              count += 1
+              updateCount()
+            }).catch(function(err) {
+              console.log('Parsing failed', err)
+            })
+        })
+
+      if (json.error) {
+        d3.select('#error').html(JSON.stringify(json.error))
+      } else {
+        d3.select('#error').html('')
+      }
+
+      fetch(apiUrl + 'count', {
+          credentials: 'include'
+        })
+        .then(function(response) {
+          return response.json()
+        }).then(function(json) {
+          count = json.count
+          updateCount()
+        }).catch(function(err) {
+          console.log('Parsing failed', err)
+        })
+
+    }).catch(function(err) {
+      console.log('Parsing failed', err)
+    })
+  </script>
+  </body>
+</html>
