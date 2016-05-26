@@ -20,7 +20,7 @@ To use express-pg-oauth in your Express project, run `npm install`:
 
     npm install --save nypl-spacetime/express-pg-oauth
 
-Afterwards, run the SQL queries in [`tables.sql`](tables.sql) in the database you are going to use for your project.
+Afterwards, run the SQL queries in [`oauth-tables.sql`](oauth-tables.sql) in the database you are going to use for your project.
 
 Now, you can set your Express app to use express-pg-oauth as middleware:
 
@@ -81,6 +81,16 @@ app.listen(PORT, () => {
 })
 ```
 
+### Usage with JSON API from web client
+
+If you're using [`fetch`](https://developers.google.com/web/updates/2015/03/introduction-to-fetch), you should include the `credentials: 'include'` option:
+
+```js
+fetch(apiUrl + 'oauth/disconnect', {
+  credentials: 'include'
+})
+```
+
 ## OAuth Providers
 
 express-pg-oauth uses [Grant](https://github.com/simov/grant) for all things OAuth. By default, express-pg-oauth uses Google, Twitter, Facebook and GitHUB as OAuth providers, but it's easy to add more: just edit [`config.js`](config.js) and add keys and secrets for the new provider(s) in your configuration JSON file as well.
@@ -89,17 +99,25 @@ express-pg-oauth uses [Grant](https://github.com/simov/grant) for all things OAu
 
 https://console.developers.google.com/projectselector/apis/library
 
+Set callback URL to http://hostname/oauth/callback/google
+
 ### Twitter
 
 https://apps.twitter.com/
 
-###Facebook
+Set callback URL to http://hostname/oauth/callback/twitter
+
+### Facebook
 
 https://developers.facebook.com/apps/
+
+Set callback URL to http://hostname/oauth/callback/facebook
 
 ### GitHub
 
 https://github.com/settings/developers
+
+Set callback URL to http://hostname/oauth/callback/github
 
 ## Example
 

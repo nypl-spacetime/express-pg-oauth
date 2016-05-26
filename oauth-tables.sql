@@ -4,7 +4,7 @@ CREATE TABLE oauth.sessions (
   sid character varying NOT NULL,
   sess json NOT NULL,
   expire timestamp(6) without time zone NOT NULL,
-  CONSTRAINT session_pkey PRIMARY KEY (sid)
+  CONSTRAINT sessions_pkey PRIMARY KEY (sid)
 );
 
 CREATE SEQUENCE oauth.users_id_seq
