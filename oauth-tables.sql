@@ -32,4 +32,4 @@ CREATE TABLE oauth.users_providers (
   provider_user_id text NOT NULL,
   data json,
   CONSTRAINT users_providers_pkey PRIMARY KEY (user_id, provider, provider_user_id)
-)
+);
