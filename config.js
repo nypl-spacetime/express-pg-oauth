@@ -53,5 +53,5 @@ const baseConfig = {
   }
 }
 
-module.exports = (config) => R.fromPairs(Object.keys(baseConfig)
-  .map((key) => [key, Object.assign(baseConfig[key], config[key])]))
+module.exports = (config) => R.fromPairs(Object.keys(config)
+  .map((key) => [key, Object.assign(config[key], baseConfig[key])]))
