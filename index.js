@@ -44,7 +44,7 @@ module.exports = function (config, updateUserIds) {
     saveUninitialized: false,
     store: new PGSession({
       pg: pg,
-      conString: config.server.pgConString,
+      conString: config.database.url,
       schemaName: 'oauth',
       tableName: 'sessions'
     }),
@@ -64,7 +64,7 @@ module.exports = function (config, updateUserIds) {
   app.use('/oauth', grant)
 
   function executeQuery (query, params, callback) {
-    pg.connect(config.server.pgConString, (err, client, done) => {
+    pg.connect(config.database.url, (err, client, done) => {
       var handleError = (err) => {
         if (!err) {
           return false

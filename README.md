@@ -42,9 +42,11 @@ var oauth = require('./index')
 var config = {
   server: {
     host: 'oauth-test.dev',
-    secret: 'OAUTH_TEST12345',
-    pgConString: 'postgres://postgres:postgres@localhost/oauth-test'
+    secret: 'OAUTH_TEST12345'
   },  
+  database: {
+    url: 'postgres://postgres:postgres@localhost/oauth-test'
+  },
   app: {
     name: 'test',
     url: 'http://oauth-test-app.dev/'
