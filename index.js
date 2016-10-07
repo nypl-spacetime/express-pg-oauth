@@ -1,8 +1,10 @@
 var R = require('ramda')
 const Config = require('./config')
 var express = require('express')
+var request = require('request')
 var Grant = require('grant-express')
-var Purest = require('purest')
+var purest = require('purest')({request})
+var purestConfig = require('@purest/providers')
 var pg = require('pg')
 var session = require('express-session')
 var PGSession = require('connect-pg-simple')(session)
@@ -27,11 +29,12 @@ module.exports = function (config, updateUserIds) {
     icon: `${serverUrl}/icons/${provider}.svg`
   }))
 
-  var purest = R.fromPairs(getProviders().map((provider) => {
+  var providers = R.fromPairs(getProviders().map((provider) => {
     return [
       provider,
-      new Purest({
-        provider: provider,
+      purest({
+        provider: 'facebook',
+        config: purestConfig,
         key: config[provider].purest.authInConstructor ? config[provider].key : undefined,
         secret: config[provider].purest.authInConstructor ? config[provider].secret : undefined
       })
@@ -196,7 +199,7 @@ module.exports = function (config, updateUserIds) {
       if (session && session.grant && session.grant.response && session.grant.response.access_token) {
         var provider = session.grant.provider
 
-        purest[provider]
+        providers[provider]
           .query(config[provider].purest.query)
           .options({
             headers: {
