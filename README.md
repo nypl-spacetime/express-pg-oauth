@@ -95,7 +95,7 @@ fetch(apiUrl + 'oauth/disconnect', {
 
 ## OAuth Providers
 
-express-pg-oauth uses [Grant](https://github.com/simov/grant) for all things OAuth. By default, express-pg-oauth uses Google, Twitter, Facebook and GitHUB as OAuth providers, but it's easy to add more: just edit [`config.js`](config.js) and add keys and secrets for the new provider(s) in your configuration JSON file as well.
+express-pg-oauth uses [Grant](https://github.com/simov/grant) for all things OAuth. By default, express-pg-oauth uses Google, Twitter, Facebook and GitHub as OAuth providers, but it's easy to add more: just edit [`config.js`](config.js) and add keys and secrets for the new provider(s) in your configuration JSON file as well.
 
 ### Google
 
