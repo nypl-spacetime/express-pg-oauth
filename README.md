@@ -47,10 +47,6 @@ var config = {
   database: {
     url: 'postgres://postgres:postgres@localhost/oauth-test'
   },
-  app: {
-    name: 'test',
-    url: 'http://oauth-test-app.dev/'
-  },
 
   // OAuth providers:
   twitter: {

@@ -25,7 +25,7 @@ module.exports = function (config, updateUserIds) {
   const getProvidersFull = () => getProviders().map((provider) => ({
     name: provider,
     title: config[provider].title,
-    connect: `${serverUrl}/connect/${provider}`,
+    connect: `${serverUrl}/authenticate/${provider}`,
     icon: `${serverUrl}/icons/${provider}.svg`
   }))
 
@@ -33,7 +33,7 @@ module.exports = function (config, updateUserIds) {
     return [
       provider,
       purest({
-        provider: 'facebook',
+        provider: provider,
         config: purestConfig,
         key: config[provider].purest.authInConstructor ? config[provider].key : undefined,
         secret: config[provider].purest.authInConstructor ? config[provider].secret : undefined
@@ -162,15 +162,18 @@ module.exports = function (config, updateUserIds) {
 
   app.get('/oauth', (req, res) => {
     res.send({
-      app: {
-        url: config.app.url
-      },
       providers: getProvidersFull(),
       disconnect: `${serverUrl}/disconnect`,
       user: req.session.user,
       oauth: req.session.oauth,
       error: req.session.error
     })
+  })
+
+  app.get('/oauth/authenticate/:provider', (req, res) => {
+    const callbackUrl = req.headers.referer
+    req.session.callbackUrl = callbackUrl
+    res.redirect(`/oauth/connect/${req.params.provider}`)
   })
 
   app.get('/oauth/disconnect', (req, res) => {
@@ -203,10 +206,11 @@ module.exports = function (config, updateUserIds) {
           .query(config[provider].purest.query)
           .options({
             headers: {
-              'user-agent': config.app.name
+              'user-agent': 'brick-by-brick'
             }
           })
           .get(config[provider].purest.get)
+          // .auth(session.grant.response.access_token)
           .auth(session.grant.response.access_token, session.grant.response.raw.oauth_token_secret)
           .request(function (err, res, body) {
             if (err) {
@@ -332,12 +336,12 @@ module.exports = function (config, updateUserIds) {
     })
   }
 
-  function backToApp (res) {
-    res.redirect(config.app.url)
+  function backToApp (req, res) {
+    res.redirect(req.session.callbackUrl)
   }
 
   app.get('/oauth/callback', getUserInfo, mergeUsers, function (req, res) {
-    backToApp(res)
+    backToApp(req, res)
   })
 
   return app

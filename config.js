@@ -8,7 +8,6 @@ const baseConfig = {
     callback: '/oauth/callback',
     path: '/oauth'
   },
-  app: {},
   twitter: {
     title: 'Twitter',
     purest: {
