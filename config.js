@@ -21,6 +21,7 @@ const baseConfig = {
   },
   facebook: {
     title: 'Facebook',
+    scope: ['email'],
     purest: {
       get: 'me',
       data: (body) => ({
@@ -31,22 +32,25 @@ const baseConfig = {
   },
   google: {
     title: 'Google',
-    scope: ['profile'],
+    scope: ['profile', 'email'],
     purest: {
       query: 'plus',
       get: 'people/me',
       data: (body) => ({
-        name: body.displayName
+        name: body.displayName,
+        email: body.emails && body.emails.filter((email) => email.type === 'account')[0].value
       })
     }
   },
   github: {
     title: 'GitHub',
+    scope: ['user:email'],
     purest: {
       get: 'user',
       data: (body) => ({
         name: body.name,
-        url: body.html_url
+        url: body.html_url,
+        email: body.email
       })
     }
   }

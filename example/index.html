@@ -127,7 +127,11 @@
         if (data.oauth.data.url) {
           name = '<a target="_blank" href="' + data.oauth.data.url + '">' + name + '</a>'
         }
-        str = 'yes, with ' + providerTitles[0] + ', and your name is ' + name
+        str = 'yes, with <b>' + providerTitles[0] + '</b>, your name is <b>' + name + '</b>'
+
+        if (data.oauth.data.email) {
+          str += ', your e-mail is <b>' + data.oauth.data.email + '</b>'
+        }
       }
 
       d3.select('#logged-in')
