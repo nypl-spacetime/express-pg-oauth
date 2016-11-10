@@ -8,7 +8,7 @@ Express middleware for OAuth authentication with a PostgreSQL backend, built on:
 - https://github.com/simov/grant
 - https://github.com/simov/purest
 
-Currently, is used by [NYPL Labs Where?](https://github.com/nypl-spacetime/where), a project for crowdsourcing geotagging [NYPL's collection](http://digitalcollections.nypl.org/).
+Currently, is used by NYPL's [brick-by-brick](https://github.com/nypl-spacetime/brick-by-brick), a simple JSON API for crowdsourcing tasks.
 
 express-pg-oauth assigns a new user ID for each new session, but merges user IDs when it finds out that multiple sessions belong to the same user. When uses log in using one of the available OAuth providers (Google, Twitter, Facebook and GitHub by default, but it's very easy to add more), the OAuth credentials are stored, enabling the module to identify when this merging needs to happen.
 
@@ -43,7 +43,7 @@ var config = {
   server: {
     host: 'oauth-test.dev',
     secret: 'OAUTH_TEST12345'
-  },  
+  },
   database: {
     url: 'postgres://postgres:postgres@localhost/oauth-test'
   },
@@ -129,7 +129,7 @@ Then, clone this repository:
 
 Install Node.js dependencies:
 
-    cd express-pg-oauth    
+    cd express-pg-oauth
     npm install
 
 Go to the `example` directory:
