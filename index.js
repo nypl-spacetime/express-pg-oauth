@@ -25,7 +25,7 @@ module.exports = function (config, updateUserIds) {
   const getProvidersFull = () => getProviders().map((provider) => ({
     name: provider,
     title: config[provider].title,
-    connect: `${serverUrl}/authenticate/${provider}`,
+    url: `${serverUrl}/authenticate/${provider}`,
     icon: `${serverUrl}/icons/${provider}.svg`
   }))
 
