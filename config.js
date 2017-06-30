@@ -32,25 +32,22 @@ const baseConfig = {
   },
   google: {
     title: 'Google',
-    scope: ['profile', 'email'],
+    scope: ['profile'],
     purest: {
       query: 'plus',
       get: 'people/me',
       data: (body) => ({
-        name: body.displayName,
-        email: body.emails && body.emails.filter((email) => email.type === 'account')[0].value
+        name: body.displayName
       })
     }
   },
   github: {
     title: 'GitHub',
-    scope: ['user:email'],
     purest: {
       get: 'user',
       data: (body) => ({
         name: body.name,
-        url: body.html_url,
-        email: body.email
+        url: body.html_url
       })
     }
   }
