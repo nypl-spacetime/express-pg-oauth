@@ -1,6 +1,6 @@
-## The MIT License (MIT)
+MIT License
 
-Copyright (C) 2016 [NYPL Labs](http://www.nypl.org/collections/labs).
+Copyright (c) 2017 The New York Public Library
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
