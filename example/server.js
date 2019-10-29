@@ -26,7 +26,7 @@ var config = {}
 try {
   config = yaml.safeLoad(fs.readFileSync(argv.config, 'utf8'))
 } catch (e) {
-  console.error('Error reading YAML file ${argv.config}: ${e.message}')
+  console.error('Error reading YAML file %s: %s', argv.config, e.message)
   process.exit(1)
 }
 

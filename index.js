@@ -1,3 +1,4 @@
+var path = require('path')
 var R = require('ramda')
 const Config = require('./config')
 var express = require('express')
@@ -41,7 +42,7 @@ module.exports = function (config, updateUserIds) {
     ]
   }))
 
-  app.use('/oauth', express.static(__dirname + '/public'))
+  app.use('/oauth', express.static(path.join(__dirname, '/public')))
 
   app.use(session({
     saveUninitialized: false,
