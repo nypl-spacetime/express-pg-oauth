@@ -1,6 +1,6 @@
 {
   "name": "express-pg-oauth",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "Express middleware for OAuth authentication with a PostgreSQL backend",
   "main": "index.js",
   "scripts": {
