@@ -69,9 +69,11 @@ app.get('/submit', (req, res) => {
 })
 
 app.get('/count', (req, res) => {
-  res.send({count: entries
-    .filter((entry) => entry.userId === req.session.user.id)
-    .length})
+  res.send({
+    count: entries
+      .filter((entry) => entry.userId === req.session.user.id)
+      .length
+  })
 })
 
 app.listen(PORT, () => {
