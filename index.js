@@ -1,9 +1,10 @@
+var path = require('path')
 var R = require('ramda')
 const Config = require('./config')
 var express = require('express')
 var request = require('request')
 var Grant = require('grant-express')
-var purest = require('purest')({request})
+var purest = require('purest')({ request })
 var purestConfig = require('@purest/providers')
 var pg = require('pg')
 var session = require('express-session')
@@ -20,7 +21,7 @@ module.exports = function (config, updateUserIds) {
   var grant = new Grant(config)
 
   const getProviders = () => Object.keys(config)
-      .filter((provider) => config[provider].key && config[provider].secret)
+    .filter((provider) => config[provider].key && config[provider].secret)
 
   const getProvidersFull = () => getProviders().map((provider) => ({
     name: provider,
@@ -41,7 +42,7 @@ module.exports = function (config, updateUserIds) {
     ]
   }))
 
-  app.use('/oauth', express.static(__dirname + '/public'))
+  app.use('/oauth', express.static(path.join(__dirname, '/public')))
 
   app.use(session({
     saveUninitialized: false,
